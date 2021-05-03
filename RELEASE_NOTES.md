@@ -1,11 +1,48 @@
 This file holds "in progress" release notes for the current release under development and is intended for consumption by the Chef Documentation team. Please see <https://docs.chef.io/release_notes/> for the official Chef release notes.
 
-## 17.1 WIP
+## What's New in 17.1
 
-- CLI reporter default in Compliance Phase: https://github.com/chef/chef/pull/11481
-- Fix windows failures: https://github.com/chef/chef/pull/11472
-- Bump InSpec to 4.36: https://github.com/chef/chef/pull/11474
-- Yum improvements: https://github.com/chef/chef/pull/11486
+### Compliance Phase Improvements
+
+The compliance phase will now default to using both the `json-file` and the new `cli` reporter by default. This gives you a visual indication of the success of the Compliance Phase and is perfect for running both on the CLI and in Test Kitchen.
+
+### Chef InSpec 4.36
+
+We've updated Chef InSpec from 4.33.1 to 4.36.4.
+
+#### New Features
+
+- Added the selinux resource which includes support for modules and booleans.
+- Added the pattern input option for DSL and metadata inputs.
+- Added the `members_array` property for group & groups resources.
+- Train now reads the username and port from the `.ssh/config` file and will use these values if present.
+
+#### Bug Fixes
+
+- Switch to GNU timeout-based implementation of SSH timeouts.
+- Fixed the group resource when a member does not exist.
+
+### Resource Improvements
+
+#### Windows Resource
+
+We fixed a failure that could occur in multiple Windows resources due to larger 64bit values that logged the error: `RangeError: bignum too big to convert into 'long'`.
+
+#### service on systemd Hosts
+
+The `service` resource, on systemd hosts, will now properly load the state of the service. Thanks for this fix [@ramereth](https://github.com/ramereth)!
+
+#### systemd_unit
+
+The `systemd_unit` resource has been updated to resolve a regression in Chef Infra Client 17.0 that would re-enable and restart unit files on each Chef Infra Client run. Thanks for this fix [@gene1wood](https://github.com/gene1wood)!
+
+#### yum_package
+
+We've made multiple improvements to how we interact with the systems RPM database in the `yum_package` resource, resulting in very large performance improvements, especially when no installation or upgrade action is taken by Chef Infra Client.
+
+### Platform Detection
+
+[Rocky Linux](https://rockylinux.org/), a RHEL clone, is now detected as a member of the `rhel` platform family.
 
 ## What's New in 17.0
 
